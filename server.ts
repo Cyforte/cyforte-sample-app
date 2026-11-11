@@ -272,7 +272,7 @@ function configureApp (app: ReturnType<typeof express>, seq: typeof sequelize) {
   /* /infrastructure directory browsing */
   app.use('/infrastructure', serveIndexMiddleware, serveIndex('infrastructure', { icons: true, view: 'details', filter: (filename) => filename !== 'README.md' }))
   app.use('/infrastructure', verify.accessControlChallenges())
-  app.use('/infrastructure', (req: Request, res: Response, next: NextFunction) => {
+  app.use('/infrastructure', rateLimit({ windowMs: 5 * 60 * 1000, max: 100 }), (req: Request, res: Response, next: NextFunction) => {
     const filePath = path.resolve('infrastructure', path.normalize(req.path).replace(/^[\\/]+/, ''))
     if (!filePath.startsWith(path.resolve('infrastructure')) || filePath.endsWith('README.md')) {
       return res.status(403).end()
