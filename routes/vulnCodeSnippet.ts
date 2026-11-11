@@ -86,8 +86,9 @@ export const checkVulnLines = () => async (req: Request<Record<string, unknown>,
   const selectedLines: number[] = req.body.selectedLines
   const verdict = getVerdict(vulnLines, neutralLines, selectedLines)
   let hint
-  if (await fs.stat('./data/static/codefixes/' + key + '.info.yml')) {
-    const codingChallengeInfos = yaml.load(await fs.readFile('./data/static/codefixes/' + key + '.info.yml', { encoding: 'utf8' }))
+  const safeKey = (await retrieveChallengesWithCodeSnippet()).find(c => c === key)
+  if (safeKey && await fs.stat('./data/static/codefixes/' + safeKey + '.info.yml')) {
+    const codingChallengeInfos = yaml.load(await fs.readFile('./data/static/codefixes/' + safeKey + '.info.yml', { encoding: 'utf8' }))
     if (codingChallengeInfos?.hints) {
       if (accuracy.getFindItAttempts(key) > codingChallengeInfos.hints.length) {
         if (vulnLines.length === 1) {
