@@ -62,7 +62,7 @@ void describe('Required Internet resource', () => {
     const body = await res.text()
     assert.equal(res.status, 200)
     assert.ok(body.includes('Rippertuer Special Juice'))
-    assert.ok(body.includes('https://pastebin.com/90dUgd7s'))
+    assert.match(body, /https:\/\/pastebin\.com\/90dUgd7s/)
   })
 
   void it('PasteBin paste (https://pastebin.com/4U1V1UjU) for "Leaked Access Logs" challenge available', async () => {
@@ -78,7 +78,7 @@ void describe('Required Internet resource', () => {
     assert.equal(res.status, 200)
     assert.ok(body.includes('/rest/continue-code'))
     assert.ok(body.includes('/api/Challenges/?name=Score%20Board'))
-    assert.ok(body.includes('https://pastebin.com/4U1V1UjU'))
+    assert.match(body, /https:\/\/pastebin\.com\/4U1V1UjU/)
   })
 
   void it('GitHub issue (https://github.com/apostrophecms/sanitize-html/issues/29) for "Server-side XSS Protection" challenge available', async () => {
