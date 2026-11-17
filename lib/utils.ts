@@ -38,7 +38,7 @@ export const isUrl = (url: string) => {
 }
 
 export const containsEscaped = function (str: string, element: string) {
-  return str ? str.includes(element.replace(/"/g, '\\"')) : false
+  return str ? str.includes(element.replace(/\\/g, '\\\\').replace(/"/g, '\\"')) : false
 }
 
 export const containsOrEscaped = function (str: string, element: string) {
